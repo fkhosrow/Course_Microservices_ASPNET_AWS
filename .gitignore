@@ -1,0 +1,12 @@
+
+UdemyCourse/.vs/UdemyCourse/config/
+
+UdemyCourse/.vs/UdemyCourse/v16/
+
+UdemyCourse/bin/Debug/netcoreapp3.1/
+
+UdemyCourse/obj/
+
+*.user
+
+UdemyCourse/appsettings.Development.json
