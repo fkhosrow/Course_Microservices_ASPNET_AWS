@@ -20,5 +20,7 @@ namespace UdemyCourse.Models.Accounts
 
         [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
+
+        public bool ResetPassword { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Amazon.CognitoIdentityProvider;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,9 +19,10 @@ namespace UdemyCourse
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Adds Amazon Cognito as Identity Provider
             services.AddCognitoIdentity(config => {
                 // This should be coming from AWS Cognito Policies
-                // Might be fixed
+                // Might be fixed one day :P
                 config.Password = new Microsoft.AspNetCore.Identity.PasswordOptions
                 {
                     RequireDigit = false,
@@ -35,6 +33,7 @@ namespace UdemyCourse
                     RequiredLength = 6
                 };
             });
+
             //services.ConfigureApplicationCookie(options =>
             //{
             //    options.LoginPath = "/Accounts/SignIn";
@@ -57,6 +56,7 @@ namespace UdemyCourse
 
             app.UseRouting();
 
+            // Enable authentification
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

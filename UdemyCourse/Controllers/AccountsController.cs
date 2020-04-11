@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using UdemyCourse.Models.Accounts;
+using Amazon.CognitoIdentityProvider;
+using Amazon.CognitoIdentityProvider.Model;
+using System.Net;
+using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
 
 namespace UdemyCourse.Controllers
 {
@@ -14,16 +19,22 @@ namespace UdemyCourse.Controllers
         private readonly SignInManager<CognitoUser> _signInManager;
         private readonly UserManager<CognitoUser> _userManager;
         private readonly CognitoUserPool _userPool;
+        private readonly IAmazonCognitoIdentityProvider _identityProvider;
+        private readonly IConfiguration _config;
 
         public AccountsController(
             SignInManager<CognitoUser> signInManager,
             UserManager<CognitoUser> userManager,
-            CognitoUserPool userPool
+            CognitoUserPool userPool,
+            IAmazonCognitoIdentityProvider identityProvider,
+            IConfiguration config
             )
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _userPool = userPool;
+            _identityProvider = identityProvider;
+            _config = config;
         }
 
         [HttpGet]
@@ -46,16 +57,17 @@ namespace UdemyCourse.Controllers
                     var user = _userPool.GetUser(model.Email);
                     if (user.Status != null)
                     {
-                        ModelState.AddModelError("UserExists", "User with this email already exists");
+                        ModelState.AddModelError("UserFound", "User with this email already exists");
                         return View(model);
                     }
 
                     // Required attribute that was setup in AWS Cognito under Attributes
                     user.Attributes.Add(CognitoAttribute.Name.AttributeName, model.Email);
+                    user.Attributes.Add(CognitoAttribute.PhoneNumber.AttributeName, model.PhoneNumber);
                     var created = await _userManager.CreateAsync(user, model.Password);
                     if (created.Succeeded)
                     {
-                        RedirectToAction("Confirm", "Accounts"); // Or RedirectToPage
+                        return RedirectToAction("Confirm", "Accounts"); // Or RedirectToPage
                     }
                     else
                     {
@@ -65,9 +77,9 @@ namespace UdemyCourse.Controllers
                         }
                     }
                 }
-                catch(System.Exception ex)
+                catch (System.Exception ex)
                 {
-                    ModelState.AddModelError("", ex.Message);
+                    ModelState.AddModelError("SignUpFailed", ex.Message);
                 }
             }
             return View(model); // error case
@@ -114,9 +126,9 @@ namespace UdemyCourse.Controllers
                         }
                     }
                 }
-                catch(System.Exception ex)
+                catch (System.Exception ex)
                 {
-                    ModelState.AddModelError("", ex.Message);
+                    ModelState.AddModelError("ConfirmFailed", ex.Message);
                 }
             }
 
@@ -148,11 +160,86 @@ namespace UdemyCourse.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("SignInError", "Email and/or password do not exist");
+                    ModelState.AddModelError("SignInFailed", "Email and/or password do not exist");
                 }
             }
 
             return View("SignIn", model);
+        }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            var model = new ForgotPasswordModel();
+            return View(model); // error case
+        }
+
+        [HttpPost]
+        [ActionName("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword_Post(ForgotPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // You should move this to a service
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user.Status == null)
+                    {
+                        ModelState.AddModelError("UserNotFound", "User with this email does not exist");
+                    }
+                    else
+                    {
+                        // Send confirmation code. 
+                        await user.ForgotPasswordAsync();
+                        return RedirectToAction("ResetPassword", "Accounts");
+                    }
+                }
+                catch(System.Exception ex)
+                {
+                    ModelState.AddModelError("ForgotPasswordFailed", ex.Message);
+                }
+            }
+
+            return View(model); // error case
+        }
+
+        [HttpGet]
+        public IActionResult ResetPassword()
+        {
+            var model = new ResetPasswordModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("ResetPassword")]
+        public async Task<IActionResult> ResetPassword_Post(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // You should move this to a service
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user.Status == null)
+                    {
+                        ModelState.AddModelError("UserNotFound", "User with this email does not exist");
+                    }
+                    else
+                    {
+                        // Reset password
+                        await user.ConfirmForgotPasswordAsync(model.Code, model.Password);
+
+                        return RedirectToAction("SignIn", "Accounts");
+                    }
+                }
+                catch(System.Exception ex)
+                {
+                    ModelState.AddModelError("ResetPasswordFailed", ex.Message);
+                }
+            }
+
+            return View(model); // error case
         }
     }
 }

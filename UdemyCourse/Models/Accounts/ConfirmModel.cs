@@ -4,12 +4,13 @@ namespace UdemyCourse.Models.Accounts
 {
     public class ConfirmModel
     {
-        [Required(ErrorMessage = "Email is required")]
+        [Required()]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Code is required")]
+        [Required()]
+        [Display(Name = "Code")]
         public string Code { get; set; }
     }
 }
