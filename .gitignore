@@ -1,16 +1,20 @@
 
-UdemyCourse/.vs/UdemyCourse/config/
+App/.vs/App/config/
 
-UdemyCourse/.vs/UdemyCourse/v16/
+App/.vs/App/v16/
 
-UdemyCourse/bin/Debug/netcoreapp3.1/
+App/bin/Debug/netcoreapp3.1/
 
-UdemyCourse/obj/
+App/obj/
 
 *.user
 
-UdemyCourse/appsettings.Development.json
+App/appsettings.Development.json
 
-UdemyCourse/.vs/App/v16/
+App/.vs/App/DesignTimeBuild/.dtbcache
 
-UdemyCourse/.vs/UdemyCourse/DesignTimeBuild/.dtbcache
+*.testlog
+
+*.manifest
+
+App/.vs/UdemyCourse/DesignTimeBuild/.dtbcache
