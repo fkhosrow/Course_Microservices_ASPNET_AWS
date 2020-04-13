@@ -1,6 +1,4 @@
-using System;
-
-namespace UdemyCourse.Models
+namespace App.Models
 {
     public class ErrorViewModel
     {

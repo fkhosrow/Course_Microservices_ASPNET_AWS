@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using UdemyCourse.Models;
+using App.Models;
 
-namespace UdemyCourse.Controllers
+namespace App.Controllers
 {
     public class HomeController : Controller
     {

@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace UdemyCourse.Models.Accounts
+namespace App.Models.Accounts
 {
     public class ForgotPasswordModel
     {

@@ -1,18 +1,17 @@
 ﻿using Amazon.AspNetCore.Identity.Cognito;
 using Amazon.Extensions.CognitoAuthentication;
 
+using Amazon.CognitoIdentityProvider;
+
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
-using UdemyCourse.Models.Accounts;
-using Amazon.CognitoIdentityProvider;
-using Amazon.CognitoIdentityProvider.Model;
-using System.Net;
 using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography;
 
-namespace UdemyCourse.Controllers
+using App.Models.Accounts;
+
+namespace App.Controllers
 {
     public class AccountsController : Controller
     {

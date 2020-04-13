@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UdemyCourse.Models.Accounts
+namespace App.Models.Accounts
 {
     public class ResetPasswordModel  : ConfirmModel
     {

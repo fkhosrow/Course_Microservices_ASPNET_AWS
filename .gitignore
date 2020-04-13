@@ -10,3 +10,7 @@ UdemyCourse/obj/
 *.user
 
 UdemyCourse/appsettings.Development.json
+
+UdemyCourse/.vs/App/v16/
+
+UdemyCourse/.vs/UdemyCourse/DesignTimeBuild/.dtbcache
