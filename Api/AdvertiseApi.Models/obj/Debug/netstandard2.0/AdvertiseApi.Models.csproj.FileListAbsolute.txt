@@ -1,8 +1,0 @@
-D:\Dev\Other\Course_Microservices_ASPNET_AWS\Api\AdvertiseApi.Models\bin\Debug\netstandard2.0\AdvertiseApi.Models.deps.json
-D:\Dev\Other\Course_Microservices_ASPNET_AWS\Api\AdvertiseApi.Models\bin\Debug\netstandard2.0\AdvertiseApi.Models.dll
-D:\Dev\Other\Course_Microservices_ASPNET_AWS\Api\AdvertiseApi.Models\bin\Debug\netstandard2.0\AdvertiseApi.Models.pdb
-D:\Dev\Other\Course_Microservices_ASPNET_AWS\Api\AdvertiseApi.Models\obj\Debug\netstandard2.0\AdvertiseApi.Models.csprojAssemblyReference.cache
-D:\Dev\Other\Course_Microservices_ASPNET_AWS\Api\AdvertiseApi.Models\obj\Debug\netstandard2.0\AdvertiseApi.Models.AssemblyInfoInputs.cache
-D:\Dev\Other\Course_Microservices_ASPNET_AWS\Api\AdvertiseApi.Models\obj\Debug\netstandard2.0\AdvertiseApi.Models.AssemblyInfo.cs
-D:\Dev\Other\Course_Microservices_ASPNET_AWS\Api\AdvertiseApi.Models\obj\Debug\netstandard2.0\AdvertiseApi.Models.dll
-D:\Dev\Other\Course_Microservices_ASPNET_AWS\Api\AdvertiseApi.Models\obj\Debug\netstandard2.0\AdvertiseApi.Models.pdb

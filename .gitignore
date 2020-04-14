@@ -18,3 +18,13 @@ App/.vs/App/DesignTimeBuild/.dtbcache
 *.manifest
 
 App/.vs/UdemyCourse/DesignTimeBuild/.dtbcache
+
+Api/AdvertiseApi/.vs/
+
+Api/AdvertiseApi/bin/
+
+Api/AdvertiseApi/obj/
+
+Api/AdvertiseApi.Models/bin/
+
+Api/AdvertiseApi.Models/obj/
