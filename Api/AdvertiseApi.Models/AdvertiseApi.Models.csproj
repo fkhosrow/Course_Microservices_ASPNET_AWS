@@ -1,7 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Farnaz Khsorow-Khavar</Authors>
+    <Product>Advertise Microservices</Product>
+    <RepositoryUrl>https://github.com/fkhosrow/Course_Microservices_ASPNET_AWS.git</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>

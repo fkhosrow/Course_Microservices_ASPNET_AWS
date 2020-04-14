@@ -1,5 +1,8 @@
+using AdvertiseApi.HealthChecks;
 using AdvertiseApi.Services;
+
 using AutoMapper;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +29,10 @@ namespace AdvertiseApi
                 );
 
             services.AddControllers();
+
+            services
+                .AddHealthChecks()
+                .AddCheck<StorageHealthCheck>("Storage");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +53,8 @@ namespace AdvertiseApi
             {
                 endpoints.MapControllers();
             });
+
+            app.UseHealthChecks("/health");
         }
     }
 }
