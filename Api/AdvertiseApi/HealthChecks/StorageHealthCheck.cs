@@ -16,7 +16,6 @@ namespace AdvertiseApi.HealthChecks
             _storageService = service;
         }
 
-
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context,
             CancellationToken cancellationToken = default(CancellationToken))
         {

@@ -1,6 +1,6 @@
 using AdvertiseApi.HealthChecks;
 using AdvertiseApi.Services;
-
+using Amazon.DynamoDBv2;
 using AutoMapper;
 
 using Microsoft.AspNetCore.Builder;
@@ -28,11 +28,14 @@ namespace AdvertiseApi
                 typeof(DynamoDbAdvertiseStorageService)
                 );
 
-            services.AddControllers();
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonDynamoDB>();
 
             services
                 .AddHealthChecks()
                 .AddCheck<StorageHealthCheck>("Storage");
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

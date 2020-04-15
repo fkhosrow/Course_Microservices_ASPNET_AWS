@@ -1,5 +1,4 @@
-﻿using System;
-using AdvertiseApi.Models;
+﻿using AdvertiseApi.Models;
 using AutoMapper;
 
 namespace AdvertiseApi.Services

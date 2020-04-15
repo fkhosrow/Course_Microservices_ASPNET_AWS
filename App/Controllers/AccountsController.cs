@@ -62,7 +62,6 @@ namespace App.Controllers
 
                     // Required attribute that was setup in AWS Cognito under Attributes
                     user.Attributes.Add(CognitoAttribute.Name.AttributeName, model.Email);
-                    user.Attributes.Add(CognitoAttribute.PhoneNumber.AttributeName, model.PhoneNumber);
                     var created = await _userManager.CreateAsync(user, model.Password);
                     if (created.Succeeded)
                     {

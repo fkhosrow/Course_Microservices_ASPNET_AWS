@@ -12,10 +12,12 @@ namespace AdvertiseApi.Services
     public class DynamoDbAdvertiseStorageService : IAdvertiseStorageService
     {
         private readonly IMapper _mapper;
+        private readonly IAmazonDynamoDB _client;
 
-        public DynamoDbAdvertiseStorageService(IMapper mapper)
+        public DynamoDbAdvertiseStorageService(IMapper mapper, IAmazonDynamoDB client)
         {
             _mapper = mapper;
+            _client = client;
         }
 
         /// <summary>
@@ -31,12 +33,9 @@ namespace AdvertiseApi.Services
             modelDb.Id = new Guid().ToString();
             modelDb.CreatedAt = DateTime.UtcNow;
 
-            using (var client = new AmazonDynamoDBClient())
+            using (var context = new DynamoDBContext(_client))
             {
-                using (var context = new DynamoDBContext(client))
-                {
-                    await context.SaveAsync(modelDb);
-                }
+                await context.SaveAsync(modelDb);
             }
 
             return modelDb.Id;
@@ -54,39 +53,36 @@ namespace AdvertiseApi.Services
         /// </exception>
         public async Task ConfirmAsync(ConfirmAdvertiseModel model)
         {
-            using (var client = new AmazonDynamoDBClient())
+            using (var context = new DynamoDBContext(_client))
             {
-                using (var context = new DynamoDBContext(client))
+                var modelDb = await context.LoadAsync<AdvertiseModel>(model.Id);
+                if (modelDb == null)
                 {
-                    var modelDb = await context.LoadAsync<AdvertiseModel>(model.Id);
-                    if (modelDb == null)
-                    {
-                        throw new KeyNotFoundException();
-                    }
+                    throw new KeyNotFoundException();
+                }
 
-                    switch (model.Status)
-                    {
-                        case AdvertiseStatus.Active:
-                            // Change status to allow up to date reads.
-                            modelDb.Status = AdvertiseStatus.Active;
-                            await context.SaveAsync(modelDb);
-                            break;
-                        case AdvertiseStatus.Pending:
-                            // Roll back
-                            await context.DeleteAsync(modelDb);
-                            break;
-                        default:
-                            throw new NotSupportedException();
-                    }
+                switch (model.Status)
+                {
+                    case AdvertiseStatus.Active:
+                        // Change status to allow up to date reads.
+                        modelDb.Status = AdvertiseStatus.Active;
+                        await context.SaveAsync(modelDb);
+                        break;
+                    case AdvertiseStatus.Pending:
+                        // Roll back
+                        await context.DeleteAsync(modelDb);
+                        break;
+                    default:
+                        throw new NotSupportedException();
                 }
             }
         }
 
         public async Task<bool> CheckHealthAsync()
         {
-            using (var client = new AmazonDynamoDBClient())
+            using (var context = new DynamoDBContext(_client))
             {
-                var tableData = await client.DescribeTableAsync("Advertisements");
+                var tableData = await _client.DescribeTableAsync("Advertisements");
                 return string.Compare(tableData.Table.TableStatus.Value, "active", true) == 0;
             }
         }
